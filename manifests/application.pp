@@ -4,7 +4,7 @@ define play::application(
   $version      = '1.0',
   $app_name     = $title,
   $port         = '9000',
-  $path         = '/opt/play',
+  $path         = $::play::params::homepath,
   $service      = true,
   $enable       = true,
   $exec_params  = '',
