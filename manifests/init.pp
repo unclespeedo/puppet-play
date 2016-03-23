@@ -17,7 +17,6 @@ class play (
   validate_absolute_path($home)
 } ->
 {
-
   group { $group:
     ensure     => present,
   }
@@ -73,15 +72,4 @@ class play (
     group  => $group,
     mode   => '0755',
   }
-
-  if $::lsbdistid == 'ubuntu' {
-    package {'unzip':
-      ensure => installed,
-    }~>
-    exec {'apt-get update':
-      command     => '/usr/bin/apt-get update',
-      refreshonly => true,
-    }
-  }
-
 }
