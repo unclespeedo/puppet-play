@@ -1,12 +1,12 @@
 {
-    "name": "natewarr-play",
+    "name": "unclespeedo-play",
     "version": "1.1.0",
-    "author": "Nate Warren",
-    "license": "MIT",
+    "author": "Ryan Speed",
+    "license": "",
     "summary": "puppet-play is a puppet component module to deploy play-framework applications on Linux",
-    "source": "https://github.com/natewarr/puppet-play.git",
-    "project_page": "https://github.com/natewarr/puppet-play",
-    "issues_url": "https://github.com/natewarr/puppet-play/issues",
+    "source": "https://github.com/unclespeedo/puppet-play.git",
+    "project_page": "https://github.com/unclespeedo/puppet-play",
+    "issues_url": "https://github.com/unclespeedo/puppet-play/issues",
     "tags": [
         "play",
         "framework",
