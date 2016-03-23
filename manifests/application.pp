@@ -4,7 +4,7 @@ define play::application(
   $version      = '1.0',
   $app_name     = $title,
   $port         = '9000',
-  $path         = $::play::params::homepath,
+  $path         = $::play::homepath,
   $service      = true,
   $enable       = true,
   $exec_params  = '',
@@ -15,7 +15,7 @@ define play::application(
   $service_name = "play-${title}",
 )
 {
-  Exec { user => $::play::params::user }
+  Exec { user => $::play::user }
 
   require play
   case $ensure {
@@ -41,8 +41,8 @@ define play::application(
         file { "${path}/conf/${service_name}-logger-conf.xml":
           ensure  => 'file',
           content => $logback_content,
-          owner   => 'play',
-          group   => 'play',
+          owner   => $::play::user,
+          group   => $::play::group,
           mode    => '0775',
           notify  => Service[$service_name],
         }
@@ -51,8 +51,8 @@ define play::application(
         file { "${path}/conf/${service_name}-logger-conf.xml":
           ensure  => 'file',
           source  => $logback_file,
-          owner   => 'play',
-          group   => 'play',
+          owner   => $::play::user,
+          group   => $::play::group,
           mode    => '0775',
           notify  => Service[$service_name],
         }
@@ -62,8 +62,8 @@ define play::application(
         file {"${path}/conf/${service_name}.conf":
           ensure  => 'file',
           content => $config_content,
-          owner   => 'play',
-          group   => 'play',
+          owner   => $::play::user,
+          group   => $::play::group,
           mode    => '0600',
           notify  => Service[$service_name],
         }
@@ -72,8 +72,8 @@ define play::application(
         file {"${path}/conf/${service_name}.conf":
           ensure => 'file',
           source => $config_file,
-          owner  => 'play',
-          group  => 'play',
+          owner  => $::play::user,
+          group  => $::play::group,
           mode   => '0600',
           notify => Service[$service_name],
         }
@@ -81,8 +81,8 @@ define play::application(
 
       file {"${path}/logs/${service_name}" :
         ensure => directory,
-        owner  => 'play',
-        group  => 'play',
+        owner  => $::play::user,
+        group  => $::play::group,
         mode   => '0755',
       }
 
