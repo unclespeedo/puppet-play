@@ -15,7 +15,7 @@ define play::application(
   $service_name = "play-${title}",
 )
 {
-  Exec { user => 'play'}
+  Exec { user => $::play::params::user }
 
   require play
   case $ensure {
