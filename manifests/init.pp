@@ -8,10 +8,15 @@
 #   Explanation of what this parameter affects and what it defaults to.
 #
 class play (
-  $user = 'play',
-  $group = 'play',
-  $homepath = '/opt/play',
-) {
+  $user     = $::play::params::user,
+  $group    = $::play::params::group,
+  $homepath = $::play::params::homepath,
+) inherits play::params {
+  validate_string($user)
+  validate_string($group)
+  validate_absolute_path($home)
+} ->
+{
 
   group { $group:
     ensure     => present,
@@ -20,8 +25,7 @@ class play (
   user { $user:
     ensure => present,
     gid    => $group,
-    shell  => '/bin/bash',
-    home   => "/home/${owner}",
+    home   => $homepath,
   }
   ->
   file { 'playappdir':
