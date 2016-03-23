@@ -8,7 +8,7 @@
 #   Explanation of what this parameter affects and what it defaults to.
 #
 class play (
-  $owner = 'play',
+  $user = 'play',
   $group = 'play',
   $homepath = '/opt/play',
 ) {
@@ -17,7 +17,7 @@ class play (
     ensure     => present,
   }
   ->
-  user { $owner:
+  user { $user:
     ensure => present,
     gid    => $group,
     shell  => '/bin/bash',
@@ -27,14 +27,14 @@ class play (
   file { 'playappdir':
     ensure => 'directory',
     path   => $homepath,
-    owner  => $owner,
+    owner  => $user,
     group  => $group,
     mode   => '0775',
   }
   file { 'apps':
     ensure  => 'directory',
     path    => "${homepath}/apps",
-    owner   => $owner,
+    owner   => $user,
     group   => $group,
     require => File['playappdir'],
     mode    => '0775',
@@ -42,7 +42,7 @@ class play (
   file { 'conf':
     ensure  => 'directory',
     path    => "${homepath}/conf",
-    owner   => $owner,
+    owner   => $user,
     group   => $group,
     require => File['playappdir'],
     mode    => '0775',
@@ -50,7 +50,7 @@ class play (
   file { 'logs':
     ensure  => 'directory',
     path    => "${homepath}/logs",
-    owner   => $owner,
+    owner   => $user,
     group   => $group,
     require => File['playappdir'],
     mode    => '0775',
@@ -58,14 +58,14 @@ class play (
   file { 'pids':
     ensure  => 'directory',
     path    => "${homepath}/pids",
-    owner   => $owner,
+    owner   => $user,
     group   => $group,
     require => File['playappdir'],
     mode    => '0775',
   }
   file { [ "${homepath}/cache", "${homepath}/cache/zip"] :
     ensure => 'directory',
-    owner  => $owner,
+    owner  => $user,
     group  => $group,
     mode   => '0755',
   }
