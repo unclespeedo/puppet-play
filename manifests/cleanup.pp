@@ -1,6 +1,6 @@
 class play::cleanup (
   $cacheHistory  =  2,
-  $homePath      = '/opt/play'
+  $homePath      = $::play::params::homepath
 ) {
 
   $keepCurrent = $cacheHistory + 1
