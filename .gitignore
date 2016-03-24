@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Ignore Play! working directory #
 bin/
 /db
@@ -14,9 +13,7 @@ server.pid
 *.eml
 /dist/
 .cache
-=======
 .*.sw?
 pkg
 spec/fixtures
 .rspec_system
->>>>>>> 206a70ff98d60e1d5a1eb679b0e7f74d76ce9c35
