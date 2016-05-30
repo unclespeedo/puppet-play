@@ -69,22 +69,6 @@ class play (
     group  => $group,
     mode   => '0775',
   }
-  file { 'apps':
-    ensure  => 'directory',
-    path    => "${homepath}/apps",
-    owner   => $user,
-    group   => $group,
-    require => File['playappdir'],
-    mode    => '0775',
-  }
-  file { 'conf':
-    ensure  => 'directory',
-    path    => "${homepath}/conf",
-    owner   => $user,
-    group   => $group,
-    require => File['playappdir'],
-    mode    => '0775',
-  }
   file { 'logs':
     ensure  => 'directory',
     path    => "${homepath}/logs",
