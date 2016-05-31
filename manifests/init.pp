@@ -69,7 +69,7 @@ class play (
     group  => $group,
     mode   => '0775',
   }
-  file { 'logs':
+  file { 'playlogs':
     ensure  => 'directory',
     path    => "${homepath}/logs",
     owner   => $user,
@@ -77,7 +77,7 @@ class play (
     require => File['playappdir'],
     mode    => '0775',
   }
-  file { 'pids':
+  file { 'playpids':
     ensure  => 'directory',
     path    => "${homepath}/pids",
     owner   => $user,
