@@ -9,7 +9,7 @@ class play (
 ) inherits play::params {
   validate_string($user)
   validate_string($group)
-  validate_absolute_path($home)
+  validate_absolute_path($homepath)
 } ->
 {
   group { $group:
