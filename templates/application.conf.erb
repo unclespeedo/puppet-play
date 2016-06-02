@@ -1,5 +1,5 @@
 # This file is managed by Puppet, any changes will be overwritten
 
-<% scope['play::config'].keys.sort.each do |key| -%>
+<% scope['play::config_params'].keys.sort.each do |key| -%>
 <%= key %>= <%= scope['play::config'][key] %>
 <% end -%>
