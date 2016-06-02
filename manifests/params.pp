@@ -1,5 +1,10 @@
 class play::params {
-  $user     = 'play',
-  $group    = 'play',
-  $homepath = '/opt/play',
+  $config            = '/etc/play/application.conf',
+  $config_template   = 'play/application.conf.erb',
+  $package_ensure    = 'latest',
+  $package_name      = 'play',
+  $service_enable    = true
+  $service_ensure    = 'running'
+  $service_manage    = true
+  $service_name      = 'play'
 }
