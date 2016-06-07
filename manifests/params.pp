@@ -1,5 +1,6 @@
 class play::params {
-  $config            = '/etc/play/application.conf'
+  $config_defaults   = '/etc/play/application.conf'
+  $include_defaults  = 'true'
   $config_template   = 'play/application.conf.erb'
   $package_manage    = 'false'
   $repo_trusted      = 'true'
@@ -9,4 +10,5 @@ class play::params {
   $service_ensure    = 'running'
   $service_manage    = true
   $service_name      = 'play'
+  $asset_path        = '/etc/play/assets'
 }
