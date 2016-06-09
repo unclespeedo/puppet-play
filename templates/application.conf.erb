@@ -4,6 +4,6 @@ include "<%= @config_defaults %>"
 <% end -%>
 
 # Instance specific configurations, these will override the default includes
-<%= @config_params.each do |key,value| -%>
+<% @config_params.each do |key,value| %>
 <%= key %>=<%= value %>
 <% end -%>
