@@ -1,43 +1,46 @@
 # Private Class
 class play::config(
-  $configdir         = hiera( 'play::configdir' ),
-  $applicationconfig = hiera( 'play::applicationconfig' ),
-  $loggerconfig      = hiera( 'play::loggerconfig' ),
-  $assetpath         = hiera( 'play::assets' ),
-  $config_params     = hiera( 'play::config_params' ),
+  $include_defaults  = true,
+  $config_defaults   = $play::config_defaults,
+  $applicationconfig = "${play::configdir}/application.conf",
+  $loggerconfig      = "${play::configdir}/logger.xml",
+  $config_params     = $play::config_params,
 ) inherits play {
-
-  validate_absolute_path($configdir)
+  validate_bool($include_defaults)
+  validate_absolute_path($config_defaults)
   validate_absolute_path($applicationconfig)
   validate_absolute_path($loggerconfig)
-  validate_absolute_path($assetpath)
   validate_hash($config_params)
 
-  file { 'assets':
-    path    => $assetpath,
-    ensure  => directory,
-    owner   => 'liquify',
-    group   => '1100',
-    mode    => '750',
-  }
   file { 'configurations':
     path    => $configdir,
     ensure  => directory,
-    owner   => 'liquify',
-    group   => '1100',
+    owner   => $user,
+    group   => $group,
     mode    => '640'
   }
+  file { 'assets':
+    path    => $assetsdir,
+    ensure  => directory,
+    owner   => $user,
+    group   => $group,
+    mode    => '750',
+  }
+
   file { 'application.conf':
     path     => $applicationconfig,
     ensure   => present,
     content  => template('play/application.conf.erb'),
+    owner   => $user,
+    group   => $group,
+    mode    => '640',
   }
   file { 'logger.xml':
-    path     => $loggerconfig,
-    ensure   => present,
-    owner    => 'liquify',
-    group    => '1100',
-    mode     => '640',
+    path    => $loggerconfig,
+    ensure  => present,
+    owner   => $user,
+    group   => $group,
+    mode    => '640',
   }
 
 }

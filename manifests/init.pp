@@ -3,9 +3,11 @@
 #
 
 class play (
-  $config_defaults   = $play::params::config_defaults,
-  $include_defaults  = $play::params::include_defaults,
-  $config_template   = $play::params::config_template,
+  $user              = $play::params::user,
+  $group             = $play::params::group,
+  $home              = "/home/${user}",
+  $assetsdir         = "$home/{assets}",
+  $configdir         = "$home/{conf}",
   $package_manage    = $play::params::package_manage,
   $repo_location     = $play::params::repo_location,
   $repo_trusted      = $play::params::repo_trusted,
@@ -15,13 +17,14 @@ class play (
   $service_ensure    = $play::params::service_ensure,
   $service_manage    = $play::params::service_manage,
   $service_name      = $play::params::service_name,
-  $asset_path        = $play::params::asset_path,
-  $play_user         = $play::params::user,
-  $play_group        = $play::params::group,
+  $config_defaults   = "/etc/${service_name}/application.conf",
+  $config_params     = $play::params::config_params,
 ) inherits play::params {
-  validate_absolute_path($config_defaults)
-  validate_bool($include_defaults)
-  validate_string($config_template)
+  validate_string($user)
+  validate_string($group)
+  validate_absolute_path($home)
+  validate_absolute_path($configdir)
+  validate_absolute_path($assetsdir)
   validate_bool($package_manage)
   validate_string($repo_location)
   validate_bool($repo_trusted)
@@ -31,7 +34,8 @@ class play (
   validate_string($service_ensure)
   validate_bool($service_manage)
   validate_string($service_name)
-  validate_absolute_path($asset_path)
+  validate_string($config_defaults)
+  validate_hash($config_params)
   
   include play::config
   include play::install
