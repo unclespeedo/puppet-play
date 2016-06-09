@@ -32,4 +32,8 @@ class play (
   validate_bool($service_manage)
   validate_string($service_name)
   validate_absolute_path($asset_path)
+  
+  include play::config
+  include play::install
+
 }

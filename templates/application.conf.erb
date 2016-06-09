@@ -1,7 +1,9 @@
 # This file is managed by Puppet, any changes will be overwritten
 <% if @include_defaults == true -%>
-include "@config_defaults"
+include "<%= @config_defaults %>"
 <% end -%>
-<% @config_params.each do |key,value| -%>
-<%= key %>= <%= value %>
+
+# Instance specific configurations, these will override the default includes
+<%= @config_params.each do |key,value| -%>
+<%= key %>=<%= value %>
 <% end -%>
