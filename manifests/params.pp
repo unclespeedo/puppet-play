@@ -1,5 +1,5 @@
 class play::params {
-  $config_params     =  ['"application.mode" => "dev"']
+  $config_params     =  ['']
   $package_manage    = false
   $repo_trusted      = true
   $package_ensure    = 'latest'
