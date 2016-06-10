@@ -6,7 +6,7 @@
         </filter>
         <file><%= @logdir %>/logback.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern><%= @logdir %>/logback.log-%%d{yyyy-MM-dd}</fileNamePattern>
+            <fileNamePattern><%= @logdir %>/logback.log-%d{yyyy-MM-dd}</fileNamePattern>
             <maxHistory>365</maxHistory>
         </rollingPolicy>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
