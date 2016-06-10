@@ -20,5 +20,5 @@ chdir /usr/share/liquify
 
 # Start the process
 script
-  exec sudo -u liquify bin/liquify -Dconfig.file=<%= @applicationconfig %> -Dpid.file=<%= @service_pid%>
+  exec sudo -u liquify bin/liquify -Dconfig.file=<%= @applicationconfig %> -Dpidfile.path=<%= @service_pid%>
 end script
