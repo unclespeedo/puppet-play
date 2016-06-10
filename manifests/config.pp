@@ -1,15 +1,11 @@
 # Private Class
 class play::config(
   $include_defaults  = true,
-  $applicationconfig = "$configdir/application.conf",
-  $loggerconfig      = "$configdir/logger.xml",
   $logdir            = "/var/log/$service_name",
   $etc_default       = "/etc/default/$service_name",
 ) inherits play {
   validate_bool($include_defaults)
   validate_absolute_path($config_defaults)
-  validate_absolute_path($applicationconfig)
-  validate_absolute_path($loggerconfig)
   validate_absolute_path($logdir)
   validate_hash($config_params)
 

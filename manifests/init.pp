@@ -21,6 +21,8 @@ class play (
   $config_defaults   = "/etc/$service_name/application.conf",
   $config_params     = $play::params::config_params,
   $defaults          = $play::params::defaults,
+  $applicationconfig = "$configdir/application.conf",
+  $loggerconfig      = "$configdir/logger.xml",
 ) inherits play::params {
   validate_string($user)
   validate_string($group)
@@ -40,6 +42,8 @@ class play (
   validate_string($config_defaults)
   validate_hash($config_params)
   validate_string($defaults)
+  validate_absolute_path($applicationconfig)
+  validate_absolute_path($loggerconfig)
   
   include play::config
   include play::install
