@@ -17,8 +17,10 @@ class play (
   $service_ensure    = $play::params::service_ensure,
   $service_manage    = $play::params::service_manage,
   $service_name      = $play::params::service_name,
+  $service_pid       = "$home/$service_name.pid",
   $config_defaults   = "/etc/$service_name/application.conf",
   $config_params     = $play::params::config_params,
+  $defaults          = $play::params::defaults,
 ) inherits play::params {
   validate_string($user)
   validate_string($group)
@@ -34,8 +36,10 @@ class play (
   validate_string($service_ensure)
   validate_bool($service_manage)
   validate_string($service_name)
+  validate_string($service_pid)
   validate_string($config_defaults)
   validate_hash($config_params)
+  validate_string($defaults)
   
   include play::config
   include play::install

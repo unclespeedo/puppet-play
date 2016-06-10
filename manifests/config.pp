@@ -1,11 +1,11 @@
 # Private Class
 class play::config(
   $include_defaults  = true,
-  $config_defaults   = $play::config_defaults,
-  $applicationconfig = "${play::configdir}/application.conf",
-  $loggerconfig      = "${play::configdir}/logger.xml",
+  $applicationconfig = "$configdir/application.conf",
+  $loggerconfig      = "$configdir/logger.xml",
   $logdir            = "/var/log/$service_name",
-  $config_params     = $play::config_params,
+  $etc_default       = "/etc/default/$service_name",
+  $config_params     = $config_params,
 ) inherits play {
   validate_bool($include_defaults)
   validate_absolute_path($config_defaults)
@@ -52,5 +52,14 @@ class play::config(
     group    => $group,
     mode     => '640',
   }
-
+  if $service_manage {
+    file { 'upstart.conf':
+      path     => "/etc/init/${service_name}.conf",
+      ensure   => present,
+      content  => template('play/upstart.conf.erb'),
+      owner    => $user,
+      group    => $group,
+      mode     => '750',
+    }
+  }
 }

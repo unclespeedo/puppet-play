@@ -10,4 +10,5 @@ class play::params {
   $service_name      = 'play'
   $user              = 'play'
   $group             = 'play'
+  $defaults          = ''
 }
