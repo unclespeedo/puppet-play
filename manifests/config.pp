@@ -5,7 +5,6 @@ class play::config(
   $loggerconfig      = "$configdir/logger.xml",
   $logdir            = "/var/log/$service_name",
   $etc_default       = "/etc/default/$service_name",
-  $config_params     = $config_params,
 ) inherits play {
   validate_bool($include_defaults)
   validate_absolute_path($config_defaults)
