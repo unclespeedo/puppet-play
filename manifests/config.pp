@@ -57,4 +57,8 @@ class play::config(
       mode     => '750',
     }
   }
+  logstashforwarder::file { 'liquify':
+    paths   => [ "$logdir/*" ],
+    fields  => { 'type' => 'liquify' },
+  }
 }
