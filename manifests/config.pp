@@ -4,6 +4,7 @@ class play::config(
   $logdir            = "/var/log/$service_name",
   $etc_default       = "/etc/default/$service_name",
   $assetsdir         = "$home/assets",
+  $documentsdir      = "$home/documents",
 ) inherits play {
   validate_bool($include_defaults)
   validate_absolute_path($config_defaults)
@@ -27,6 +28,13 @@ class play::config(
   }
   file { 'assets':
     path    => $assetsdir,
+    ensure  => directory,
+    owner   => $user,
+    group   => $group,
+    mode    => '750',
+  }
+  file { 'documents':
+    path    => $documentsdir,
     ensure  => directory,
     owner   => $user,
     group   => $group,
