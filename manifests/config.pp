@@ -40,6 +40,7 @@ class play::config(
     owner    => $user,
     group    => $group,
     mode     => '640',
+    notify  => Service["$service_name"]
   }
   file { 'logger.xml':
     path     => $loggerconfig,
@@ -58,5 +59,9 @@ class play::config(
       group    => $group,
       mode     => '750',
     }
+  }
+  service { $service_name:
+    name    => $service_name,
+    ensure  => $service_ensure,
   }
 }
