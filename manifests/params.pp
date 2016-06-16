@@ -1,5 +1,5 @@
 class play::params {
-  $config_params     =  ['']
+  $config_params     =  hiera_hash('play::config_params', undef)
   $package_manage    = false
   $repo_trusted      = true
   $package_ensure    = 'latest'
