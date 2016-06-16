@@ -6,7 +6,6 @@ class play (
   $user              = $play::params::user,
   $group             = $play::params::group,
   $home              = "/home/$user",
-  $assetsdir         = "$home/assets",
   $configdir         = "$home/conf",
   $package_manage    = $play::params::package_manage,
   $repo_location     = $play::params::repo_location,
@@ -28,7 +27,6 @@ class play (
   validate_string($group)
   validate_absolute_path($home)
   validate_absolute_path($configdir)
-  validate_absolute_path($assetsdir)
   validate_bool($package_manage)
   validate_string($repo_location)
   validate_bool($repo_trusted)

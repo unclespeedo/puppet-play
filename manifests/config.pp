@@ -3,11 +3,13 @@ class play::config(
   $include_defaults  = true,
   $logdir            = "/var/log/$service_name",
   $etc_default       = "/etc/default/$service_name",
+  $assetsdir         = "$home/assets",
 ) inherits play {
   validate_bool($include_defaults)
   validate_absolute_path($config_defaults)
   validate_absolute_path($logdir)
   validate_hash($config_params)
+  validate_absolute_path($assetsdir)
 
   file { 'configurations':
     path    => $configdir,
