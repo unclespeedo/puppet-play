@@ -20,5 +20,6 @@ chdir /usr/share/liquify
 
 # Start the process
 script
+  export PATH=<%= @home -%>/bin:$PATH
   exec sudo -u liquify bin/liquify -Dconfig.file=<%= @applicationconfig %> -Dpidfile.path=<%= @service_pid%> -Dlogger.file=<%= @loggerconfig %>
 end script
