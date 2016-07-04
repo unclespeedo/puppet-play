@@ -16,8 +16,9 @@ class play::install inherits play {
         notify => File['upstart.conf'],
       }
       service { $service_name:
-        enable  => $service_enable,
-        ensure  => $service_ensure,
+        enable   => $service_enable,
+        ensure   => $service_ensure,
+        require  => Package["$package_name"], 
       }  
     } else {
       package { $package_name:
