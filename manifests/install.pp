@@ -23,6 +23,7 @@ class play::install inherits play {
     } else {
       package { $package_name:
         ensure   => $package_ensure,
+        provider => apt,
       }
     }
     Class['apt::update'] -> Package[$package_name]
