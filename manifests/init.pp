@@ -8,6 +8,7 @@ class play (
   $home              = "/home/$user",
   $configdir         = "$home/conf",
   $package_manage    = $play::params::package_manage,
+  $repo_manage       = $play::params::repo_manage,
   $repo_location     = $play::params::repo_location,
   $repo_trusted      = $play::params::repo_trusted,
   $package_ensure    = $play::params::package_ensure,
@@ -28,6 +29,7 @@ class play (
   validate_absolute_path($home)
   validate_absolute_path($configdir)
   validate_bool($package_manage)
+  validate_bool($repo_manage)
   validate_string($repo_location)
   validate_bool($repo_trusted)
   validate_string($package_ensure)

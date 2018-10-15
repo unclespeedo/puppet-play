@@ -66,10 +66,7 @@ class play::config(
       owner    => $user,
       group    => $group,
       mode     => '750',
+      notify   => Service["$service_name"],
     }
-  }
-  service { $service_name:
-    name    => $service_name,
-    ensure  => $service_ensure,
   }
 }
