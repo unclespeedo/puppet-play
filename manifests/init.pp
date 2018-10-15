@@ -44,8 +44,6 @@ class play (
   validate_string($defaults)
   validate_absolute_path($applicationconfig)
   validate_absolute_path($loggerconfig)
-  
   include play::config
   include play::install
-
 }

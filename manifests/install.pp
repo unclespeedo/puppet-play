@@ -18,8 +18,8 @@ class play::install inherits play {
       service { $service_name:
         enable   => $service_enable,
         ensure   => $service_ensure,
-        require  => Package["$package_name"], 
-      }  
+        require  => Package["$package_name"],
+      }
     } else {
       package { $package_name:
         ensure   => $package_ensure,
