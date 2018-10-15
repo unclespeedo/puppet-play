@@ -40,6 +40,9 @@ class play::config(
     group   => $group,
     mode    => '750',
   }
+  service {"{$service_name}":
+    enable    => "{$service_enable}",
+  }
 
   file { 'application.conf':
     path     => $applicationconfig,
@@ -48,7 +51,7 @@ class play::config(
     owner    => $user,
     group    => $group,
     mode     => '640',
-    notify  => Service["$service_name"]
+    notify  => Service["{$service_name}"]
   }
   file { 'logger.xml':
     path     => $loggerconfig,
