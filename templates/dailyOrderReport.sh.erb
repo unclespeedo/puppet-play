@@ -1,0 +1,112 @@
+#! /bin/bash
+set -e
+
+mysql='mysql -hliquify-ca.ci1hhzzdequ2.us-west-2.rds.amazonaws.com -ureports -pmhBF6LHN7dJgcD liquify'
+
+date=`date -dyesterday +'%Y-%m-%d'`
+isgroup=0
+
+while getopts "n:i:e:o:h:u:p:d:g" arg; do
+  case $arg in
+    n)
+      companyname="$OPTARG"
+      ;;
+    i)
+      companyid="$OPTARG"
+      ;;
+    e)
+      email="$OPTARG"
+      ;;
+    h)
+      host="$OPTARG"
+      ;;
+    u)
+      username="$OPTARG"
+      ;;
+    p)
+      password="$OPTARG"
+      ;;
+    d)
+      date="$OPTARG"
+      ;;
+    g)
+      isgroup=1
+      ;;
+  esac
+done
+
+if [[ -z "$companyname" || -z $companyid || -z $email || -z $host || -z $username || -z $password ]]; then
+  echo "Usage: [-g] -n'[company name]' -i[company id] '-e[email address]' -h'[mysql host]' -u'[mysql username]' -p'[mysql password]'"
+  echo "(-g specifies an agent group, otherwise is agent)"
+  exit 1
+fi
+
+mysql='mysql -h'"$host"' -u'"$username"' -p'"$password"' liquify'
+
+if [[ isgroup -eq 1 ]]; then
+  idcol="a.agentGroupId"
+  companytype="Agent Group"
+else
+  idcol="a.id"
+  companytype="Agent"
+fi
+
+fromwhere="
+  from orders ord
+  join offers off on off.id=ord.offerId
+  join products p on p.id=off.productId
+  join agents a on p.agentId=a.id
+  join order_batch_orders obo on ord.id = obo.orderId
+  join order_batches ob on obo.orderBatchId = ob.id
+  join order_batch_sets obs on ob.orderBatchSetId = obs.id and obs.orderBatchType = 'Start'
+  join licensees l on ob.licenseeId = l.id
+  left join users u on obs.salesRepUserId=u.id
+  where $idcol = $companyid AND ord.state != 'Cancelled' AND date(obs.time) = '$date'
+"
+echo $fromwhere
+
+get_report() {
+  echo "Here are yesterday's sales for $companyname as of `date`."
+
+  echo
+  echo "Sales Overview"
+  $mysql -e "
+    select
+      sum(ord.caseQuantity) as 'Total Case Sales',
+      sum(ord.newListing) as 'New Listings',
+      concat('$', format(sum(ord.pricePerUnit/100 * ord.unitQuantity), 2)) as 'Total Sales Value',
+      count(distinct ob.licenseeId) as 'Total Accounts Ordering',
+      count(distinct u.id) as 'Total Reps Ordering'
+    $fromwhere
+    \G
+  " | sed 's/\*\*\*.*//' | sed 's/^\s*//'
+
+  echo
+  echo "Sales Summary"
+  $mysql -e "
+      select
+        l.name AS 'Buyer',
+        IFNULL(u.name, IFNULL(u.email, 'Marketplace')) AS 'Sales Rep',
+        IFNULL(off.name, p.name) AS 'Offer Name',
+        IF(ord.newListing > 0, 'Yes', 'No') AS 'New Listing',
+        ord.caseQuantity AS 'Cases Purchased'
+    $fromwhere
+    order by obs.time desc
+    \G
+  " | sed 's/\*\*\*.*//' | sed 's/^\s*//'
+
+  echo
+  echo "If you have any questions, or you'd like to stop receiving these emails, please email support@liquify.ca."
+}
+
+echo "--- Generating report email for $companytype $companyid: $companyname - $email"
+
+count=`$mysql --skip-column-names -B -e "select count(*) $fromwhere"`
+
+if [[ $count -gt 0 ]]; then
+  echo "-- Emailing $count orders to $email"
+  content=`get_report`
+  bin/sparkpost.sh -l'DailyOrderReport' -t"$email" -s"Your Liquify sales for `date -dyesterday '+%A, %B %d, %Y'`" -c"$content"
+else
+  echo "--- No orders found, not sending email"
+fi
