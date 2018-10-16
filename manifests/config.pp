@@ -8,9 +8,9 @@ class play::config(
 ) inherits play {
   validate_bool($play::config::include_defaults)
   validate_absolute_path($play::config_defaults)
-  validate_absolute_path($play::logdir)
+  validate_absolute_path($play::config::logdir)
   validate_hash($play::config_params)
-  validate_absolute_path($play::assetsdir)
+  validate_absolute_path($play::config::assetsdir)
 
   file { 'configurations':
     ensure => directory,
@@ -21,21 +21,21 @@ class play::config(
   }
   file { 'logs':
     ensure => directory,
-    path   => "${play::logdir}",
+    path   => "${play::config::logdir}",
     owner  => "${play::user}",
     group  => "${play::group}",
     mode   => '0750'
   }
   file { 'assets':
     ensure => directory,
-    path   => "${play::assetsdir}",
+    path   => "${play::config::assetsdir}",
     owner  => "${play::user}",
     group  => "${play::group}",
     mode   => '0750',
   }
   file { 'documents':
     ensure => directory,
-    path   => "${play::documentsdir}",
+    path   => "${play::config::documentsdir}",
     owner  => "${play::user}",
     group  => "${play::group}",
     mode   => '0750',
