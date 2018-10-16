@@ -9,8 +9,7 @@
   "issues_url": "https://github.com/unclespeedo/puppet-play/issues",
   "dependencies": [
     {
-      "name": "puppetlabs-stdlib",
-      "version_requirement": ">= 1.0.0"
+      "name": "puppetlabs-stdlib", "version_requirement": ">= 4.13.1 < 5.0.0"
     }
   ],
   "operatingsystem_support": [

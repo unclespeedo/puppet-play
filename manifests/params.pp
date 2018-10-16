@@ -1,5 +1,9 @@
+# Class: play
+# ===========================
+# Base parameters
+
 class play::params {
-  $config_params     = hiera_hash('play::config_params', {"http.port" => "9000"})
+  $config_params     = hiera_hash('play::config_params', {'http.port' => '9000'})
   $package_manage    = false
   $repo_manage       = false
   $repo_trusted      = false

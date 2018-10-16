@@ -5,8 +5,8 @@
 class play (
   $user              = $play::params::user,
   $group             = $play::params::group,
-  $home              = "/home/$user",
-  $configdir         = "$home/conf",
+  $home              = "/home/${play::user}",
+  $configdir         = "${play::home}/conf",
   $package_manage    = $play::params::package_manage,
   $repo_manage       = $play::params::repo_manage,
   $repo_location     = $play::params::repo_location,
@@ -17,12 +17,12 @@ class play (
   $service_ensure    = $play::params::service_ensure,
   $service_manage    = $play::params::service_manage,
   $service_name      = $play::params::service_name,
-  $service_pid       = "$home/$service_name.pid",
-  $config_defaults   = "/etc/$service_name/application.conf",
+  $service_pid       = "${play::home}/${play::service_name}.pid",
+  $config_defaults   = "/etc/${play::service_name}/application.conf",
   $config_params     = $play::params::config_params,
   $defaults          = $play::params::defaults,
-  $applicationconfig = "$configdir/application.conf",
-  $loggerconfig      = "$configdir/logger.xml",
+  $applicationconfig = "${play::configdir}/application.conf",
+  $loggerconfig      = "${play::configdir}/logger.xml",
 ) inherits play::params {
   validate_string($user)
   validate_string($group)

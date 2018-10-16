@@ -1,31 +1,31 @@
 #
 class play::install inherits play {
-  if $package_manage {
-    if $repo_manage {
+  if $play::package_manage {
+    if $play::repo_manage {
       include ::apt
-      apt::source { $package_name:
-        location        => "$repo_location",
-        release         => 'trusty',
-        repos           => 'main',
-        allow_unsigned  => $repo_trusted,
+      apt::source { $play::package_name:
+        location       => "${play::repo_location}",
+        release        => 'trusty',
+        repos          => 'main',
+        allow_unsigned => "${play::repo_trusted}",
       }
     }
-    if $service_manage {
-      package { $package_name:
-        ensure   => $package_ensure,
+    if $play::service_manage {
+      package { $play::package_name:
+        ensure => "${play::package_ensure}",
         notify => File['upstart.conf'],
       }
-      service { $service_name:
-        enable   => $service_enable,
-        ensure   => $service_ensure,
-        require  => Package["$package_name"],
+      service { $play::service_name:
+        ensure  => "${play::service_ensure}",
+        enable  => "${play::service_enable}",
+        require => Package["${play::package_name}"],
       }
     } else {
-      package { $package_name:
-        ensure   => $package_ensure,
+      package { $play::package_name:
+        ensure   => "${play::package_ensure}",
         provider => apt,
       }
     }
-    Class['apt::update'] -> Package[$package_name]
+    Class['apt::update'] -> Package[$play::package_name]
   }
 }
