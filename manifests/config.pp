@@ -6,7 +6,7 @@ class play::config(
   $assetsdir         = "${play::home}/assets",
   $documentsdir      = "${play::home}/documents"
 ) inherits play {
-  validate_bool($play::include_defaults)
+  validate_bool($play::config::include_defaults)
   validate_absolute_path($play::config_defaults)
   validate_absolute_path($play::logdir)
   validate_hash($play::config_params)
