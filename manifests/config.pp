@@ -40,10 +40,6 @@ class play::config(
     group  => "${play::group}",
     mode   => '0750',
   }
-  service { "${play::service_name}":
-    enable    => "${play::service_name}",
-  }
-
   file { 'application.conf':
     ensure  => present,
     path    => "${play::applicationconfig}",
