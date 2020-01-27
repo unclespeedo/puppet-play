@@ -1,0 +1,19 @@
+# This file is managed by Puppet, any changes will be overwritten
+# based on original upstart script from sbt-nativepackager
+[Unit]
+Description=Liquify web application.
+After=network.target
+
+[Service]
+PIDFile=<%= @service_pid%>
+WorkingDirectory=/usr/share/liquify
+ExecStartPre=/bin/rm -f <%= @service_pid%>
+ExecStart=/usr/share/liquify/bin/liquify -Dconfig.file=<%= @applicationconfig %> -Dpidfile.path=<%= @service_pid%> -Dlogger.file=<%= @loggerconfig %>
+Restart=on-failure
+User=liquify
+
+# See http://serverfault.com/a/695863
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

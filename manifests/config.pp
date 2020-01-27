@@ -14,58 +14,78 @@ class play::config(
 
   file { 'configurations':
     ensure => directory,
-    path   => "${play::configdir}",
-    owner  => "${play::user}",
-    group  => "${play::group}",
+    path   => $play::configdir,
+    owner  => $play::user,
+    group  => $play::group,
     mode   => '0640'
   }
   file { 'logs':
     ensure => directory,
-    path   => "${play::config::logdir}",
-    owner  => "${play::user}",
-    group  => "${play::group}",
+    path   => $play::config::logdir,
+    owner  => $play::user,
+    group  => $play::group,
     mode   => '0750'
   }
   file { 'assets':
     ensure => directory,
-    path   => "${play::config::assetsdir}",
-    owner  => "${play::user}",
-    group  => "${play::group}",
+    path   => $play::config::assetsdir,
+    owner  => $play::user,
+    group  => $play::group,
     mode   => '0750',
   }
   file { 'documents':
     ensure => directory,
-    path   => "${play::config::documentsdir}",
-    owner  => "${play::user}",
-    group  => "${play::group}",
+    path   => $play::config::documentsdir,
+    owner  => $play::user,
+    group  => $play::group,
     mode   => '0750',
   }
   file { 'application.conf':
     ensure  => present,
-    path    => "${play::applicationconfig}",
+    path    => $play::applicationconfig,
     content => template('play/application.conf.erb'),
-    owner   => "${play::user}",
-    group   => "${play::group}",
-    mode    => '0640',
-    notify  => Service["${play::service_name}"]
+    owner   => $play::user,
+    group   => $play::group,
+    mode    => '0640'
   }
   file { 'logger.xml':
     ensure  => present,
-    path    => "${play::loggerconfig}",
+    path    => $play::loggerconfig,
     content => template('play/logger.xml.erb'),
-    owner   => "${play::user}",
-    group   => "${play::group}",
+    owner   => $play::user,
+    group   => $play::group,
     mode    => '0640',
   }
   if $play::service_manage {
-    file { 'upstart.conf':
-      ensure  => present,
-      path    => "/etc/init/${play::service_name}.conf",
-      content => template('play/upstart.conf.erb'),
-      owner   => "${play::user}",
-      group   => "${play::group}",
-      mode    => '0750',
-      notify  => Service["${play::service_name}"],
+    case $facts['os']['release']['major'] {
+      '16.04': {
+        file { 'servicefile':
+          ensure   => present,
+          path     => "/etc/systemd/system/${play::service_name}.service",
+          content  => template('play/systemd.service.erb'),
+          owner    => 'root',
+          group    => 'root',
+          mode     => '0644',
+          notify   => Service[$play::service_name],
+        }
+      }
+      '14.04': {
+        file { 'servicefile':
+          ensure  => present,
+          path    => "/etc/init/${play::service_name}.conf",
+          content => template('play/upstart.conf.erb'),
+          owner   => 'root',
+          group   => 'root',
+          mode    => '0644',
+          notify  => Service[$play::service_name],
+        }
+      }
+      default: {
+        file { 'servicefile':
+          ensure => absent,
+          path   => '/tmp/service9102e1'
+        }
+      }
     }
   }
 }
