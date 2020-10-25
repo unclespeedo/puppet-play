@@ -33,6 +33,9 @@ class play::install inherits play {
             subscribe => File['application.conf']
           }
         }
+        default: {
+          notify('Sorry, $play::service_name is not supported on your distribution.')
+        }
       }
     } else {
       package { $play::package_name:
