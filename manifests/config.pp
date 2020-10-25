@@ -60,13 +60,13 @@ class play::config(
     case $facts['os']['release']['major'] {
       '16.04': {
         file { 'servicefile':
-          ensure   => present,
-          path     => "/etc/systemd/system/${play::service_name}.service",
-          content  => template('play/systemd.service.erb'),
-          owner    => 'root',
-          group    => 'root',
-          mode     => '0644',
-          notify   => Service[$play::service_name],
+          ensure  => present,
+          path    => "/etc/systemd/system/${play::service_name}.service",
+          content => template('play/systemd.service.erb'),
+          owner   => 'root',
+          group   => 'root',
+          mode    => '0644',
+          notify  => Service[$play::service_name],
         }
       }
       '14.04': {
