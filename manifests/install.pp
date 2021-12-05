@@ -16,14 +16,6 @@ class play::install inherits play {
         notify => File['servicefile'],
       }
       case $facts['os']['release']['major'] {
-        '16.04': {
-          service { $play::service_name:
-            enable    => $play::service_enable,
-            hasstatus => false,
-            require   => Package[$play::package_name],
-            subscribe => File['application.conf']
-          }
-        }
         '14.04': {
           service { $play::service_name:
             ensure    => $play::service_ensure,
@@ -34,7 +26,12 @@ class play::install inherits play {
           }
         }
         default: {
-          notify('Sorry, $play::service_name is not supported on your distribution.')
+          service { $play::service_name:
+            enable    => $play::service_enable,
+            hasstatus => false,
+            require   => Package[$play::package_name],
+            subscribe => File['application.conf']
+          }
         }
       }
     } else {
