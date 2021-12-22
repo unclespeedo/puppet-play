@@ -80,10 +80,7 @@ class play::config(
           notify  => Service[$play::service_name],
         }
       }
-        file { 'servicefile':
-          ensure => absent,
-          path   => '/tmp/service9102e1'
-        }
     }
   }
 }
+
