@@ -58,17 +58,6 @@ class play::config(
   }
   if $play::service_manage {
     case $facts['os']['release']['major'] {
-      '16.04': {
-        file { 'servicefile':
-          ensure  => present,
-          path    => "/etc/systemd/system/${play::service_name}.service",
-          content => template('play/systemd.service.erb'),
-          owner   => 'root',
-          group   => 'root',
-          mode    => '0644',
-          notify  => Service[$play::service_name],
-        }
-      }
       '14.04': {
         file { 'servicefile':
           ensure  => present,
@@ -82,10 +71,19 @@ class play::config(
       }
       default: {
         file { 'servicefile':
+          ensure  => present,
+          path    => "/etc/systemd/system/${play::service_name}.service",
+          content => template('play/systemd.service.erb'),
+          owner   => 'root',
+          group   => 'root',
+          mode    => '0644',
+          notify  => Service[$play::service_name],
+        }
+      }
+        file { 'servicefile':
           ensure => absent,
           path   => '/tmp/service9102e1'
         }
-      }
     }
   }
 }
