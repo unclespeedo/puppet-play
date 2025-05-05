@@ -60,7 +60,7 @@ class play (
   String                    $service_pid        = "${play::home}/${play::service_name}.pid",
   String                    $config_defaults    = "/etc/${play::service_name}/application.conf",
   Hash                      $config_params      = $play::params::config_params,
-  Hash                      $defaults           = $play::params::defaults,
+  String                    $defaults           = $play::params::defaults,
   Stdlib::Absolutepath      $applicationconfig  = "${play::configdir}/application.conf",
   Stdlib::Absolutepath      $loggerconfig       = "${play::configdir}/logger.xml",
 ) inherits play::params {
