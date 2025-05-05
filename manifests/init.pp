@@ -1,49 +1,69 @@
 # Class: play
 # ===========================
 #
-
+# @param user
+#   The user that owns the Play application files and runs the service
+# @param group 
+#   The group that owns the Play application files and runs the service
+# @param home
+#   The home directory for the Play application
+# @param configdir
+#   The directory for the Play application configuration files
+# @param package_manage
+#   Whether to manage the Play package
+# @param repo_manage
+#   Whether to manage the Play repository
+# @param repo_location
+#   The location of the Play repository
+# @param repo_trusted
+#   Whether to trust the Play repository
+# @param package_ensure
+#   The ensure state of the Play package
+# @param package_name
+#   The name of the Play package
+# @param service_enable
+#   Whether to enable the Play service
+# @param service_ensure
+#   The ensure state of the Play service
+# @param service_manage
+#   Whether to manage the Play service
+# @param service_name
+#   The name of the Play service
+# @param service_pid
+#   The PID file for the Play service
+# @param config_defaults
+#   The default configuration file for the Play service
+# @param config_params
+#   The parameters for the Play configuration files
+# @param defaults
+#   The default values for the Play configuration files
+# @param applicationconfig
+#   The path to the Play application configuration file
+# @param loggerconfig
+#   The path to the Play logger configuration file
+#
 class play (
-  $user              = $play::params::user,
-  $group             = $play::params::group,
-  $home              = "/home/${play::user}",
-  $configdir         = "${play::home}/conf",
-  $package_manage    = $play::params::package_manage,
-  $repo_manage       = $play::params::repo_manage,
-  $repo_location     = $play::params::repo_location,
-  $repo_trusted      = $play::params::repo_trusted,
-  $package_ensure    = $play::params::package_ensure,
-  $package_name      = $play::params::package_name,
-  $service_enable    = $play::params::service_enable,
-  $service_ensure    = $play::params::service_ensure,
-  $service_manage    = $play::params::service_manage,
-  $service_name      = $play::params::service_name,
-  $service_pid       = "${play::home}/${play::service_name}.pid",
-  $config_defaults   = "/etc/${play::service_name}/application.conf",
-  $config_params     = $play::params::config_params,
-  $defaults          = $play::params::defaults,
-  $applicationconfig = "${play::configdir}/application.conf",
-  $loggerconfig      = "${play::configdir}/logger.xml",
+  String                    $user  = $play::params::user,
+  String                    $group = $play::params::group,
+  Stdlib::Absolutepath      $home               = "/home/${play::user}",
+  Stdlib::Absolutepath      $configdir          = "${play::home}/conf",
+  Boolean                   $package_manage     = $play::params::package_manage,
+  Boolean                   $repo_manage        = $play::params::repo_manage,
+  String                    $repo_location      = $play::params::repo_location,
+  Boolean                   $repo_trusted       = $play::params::repo_trusted,
+  String                    $package_ensure     = $play::params::package_ensure,
+  String                    $package_name       = $play::params::package_name,
+  Boolean                   $service_enable     = $play::params::service_enable,
+  String                    $service_ensure     = $play::params::service_ensure,
+  Boolean                   $service_manage     = $play::params::service_manage,
+  String                    $service_name       = $play::params::service_name,
+  String                    $service_pid        = "${play::home}/${play::service_name}.pid",
+  String                    $config_defaults    = "/etc/${play::service_name}/application.conf",
+  Hash                      $config_params      = $play::params::config_params,
+  Hash                      $defaults           = $play::params::defaults,
+  Stdlib::Absolutepath      $applicationconfig  = "${play::configdir}/application.conf",
+  Stdlib::Absolutepath      $loggerconfig       = "${play::configdir}/logger.xml",
 ) inherits play::params {
-  validate_string($user)
-  validate_string($group)
-  validate_absolute_path($home)
-  validate_absolute_path($configdir)
-  validate_bool($package_manage)
-  validate_bool($repo_manage)
-  validate_string($repo_location)
-  validate_bool($repo_trusted)
-  validate_string($package_ensure)
-  validate_string($package_name)
-  validate_bool($service_enable)
-  validate_string($service_ensure)
-  validate_bool($service_manage)
-  validate_string($service_name)
-  validate_string($service_pid)
-  validate_string($config_defaults)
-  validate_hash($config_params)
-  validate_string($defaults)
-  validate_absolute_path($applicationconfig)
-  validate_absolute_path($loggerconfig)
   include play::config
   include play::install
 }

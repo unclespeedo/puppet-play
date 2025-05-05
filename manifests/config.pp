@@ -1,30 +1,29 @@
 # Private Class
-class play::config(
-  $include_defaults  = true,
-  $logdir            = "/var/log/${play::service_name}",
-  $etc_default       = "/etc/default/${play::service_name}",
-  $assetsdir         = "${play::home}/assets",
-  $documentsdir      = "${play::home}/documents"
+# @param include_defaults [Boolean] Whether to include default configuration
+# @param logdir [Stdlib::Absolutepath] Directory for log files
+# @param etc_default [Stdlib::Absolutepath] Path to default configuration
+# @param assetsdir [Stdlib::Absolutepath] Directory for assets
+# @param documentsdir [Stdlib::Absolutepath] Directory for documents
+class play::config (
+  Boolean                   $include_defaults  = true,
+  Stdlib::Absolutepath      $logdir            = "/var/log/${play::service_name}",
+  Stdlib::Absolutepath      $etc_default       = "/etc/default/${play::service_name}",
+  Stdlib::Absolutepath      $assetsdir         = "${play::home}/assets",
+  Stdlib::Absolutepath      $documentsdir      = "${play::home}/documents"
 ) inherits play {
-  validate_bool($play::config::include_defaults)
-  validate_absolute_path($play::config_defaults)
-  validate_absolute_path($play::config::logdir)
-  validate_hash($play::config_params)
-  validate_absolute_path($play::config::assetsdir)
-
   file { 'configurations':
     ensure => directory,
     path   => $play::configdir,
     owner  => $play::user,
     group  => $play::group,
-    mode   => '0640'
+    mode   => '0640',
   }
   file { 'logs':
     ensure => directory,
     path   => $play::config::logdir,
     owner  => $play::user,
     group  => $play::group,
-    mode   => '0750'
+    mode   => '0750',
   }
   file { 'assets':
     ensure => directory,
@@ -41,15 +40,15 @@ class play::config(
     mode   => '0750',
   }
   file { 'application.conf':
-    ensure  => present,
+    ensure  => file,
     path    => $play::applicationconfig,
     content => template('play/application.conf.erb'),
     owner   => $play::user,
     group   => $play::group,
-    mode    => '0640'
+    mode    => '0640',
   }
   file { 'logger.xml':
-    ensure  => present,
+    ensure  => file,
     path    => $play::loggerconfig,
     content => template('play/logger.xml.erb'),
     owner   => $play::user,
@@ -60,7 +59,7 @@ class play::config(
     case $facts['os']['release']['major'] {
       '14.04': {
         file { 'servicefile':
-          ensure  => present,
+          ensure  => file,
           path    => "/etc/init/${play::service_name}.conf",
           content => template('play/upstart.conf.erb'),
           owner   => 'root',
@@ -71,7 +70,7 @@ class play::config(
       }
       default: {
         file { 'servicefile':
-          ensure  => present,
+          ensure  => file,
           path    => "/etc/systemd/system/${play::service_name}.service",
           content => template('play/systemd.service.erb'),
           owner   => 'root',
@@ -83,4 +82,3 @@ class play::config(
     }
   }
 }
-

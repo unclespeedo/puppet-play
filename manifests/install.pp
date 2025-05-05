@@ -2,7 +2,7 @@
 class play::install inherits play {
   if $play::package_manage {
     if $play::repo_manage {
-      include ::apt
+      include apt
       apt::source { $play::package_name:
         location       => $play::repo_location,
         release        => 'trusty',
@@ -22,7 +22,7 @@ class play::install inherits play {
             enable    => $play::service_enable,
             hasstatus => false,
             require   => Package[$play::package_name],
-            subscribe => File['application.conf']
+            subscribe => File['application.conf'],
           }
         }
         default: {
@@ -30,7 +30,7 @@ class play::install inherits play {
             enable    => $play::service_enable,
             hasstatus => false,
             require   => Package[$play::package_name],
-            subscribe => File['application.conf']
+            subscribe => File['application.conf'],
           }
         }
       }
