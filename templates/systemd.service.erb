@@ -1,19 +1,27 @@
 # This file is managed by Puppet, any changes will be overwritten
-# based on original upstart script from sbt-nativepackager
 [Unit]
-Description=Liquify web application.
+Description=<%= @service_name %> web application.
 After=network.target
+StartLimitIntervalSec=300
+StartLimitBurst=5
 
 [Service]
-PIDFile=<%= @service_pid%>
-WorkingDirectory=/usr/share/liquify
-ExecStartPre=/bin/rm -f <%= @service_pid%>
-ExecStart=/usr/share/liquify/bin/liquify -Dconfig.file=<%= @applicationconfig %> -Dpidfile.path=<%= @service_pid%> -Dlogger.file=<%= @loggerconfig %>
+Type=simple
+WorkingDirectory=/usr/share/<%= @service_name %>
+<% if @jvm_opts -%>
+Environment="JAVA_OPTS=<%= @jvm_opts %>"
+<% end -%>
+ExecStart=/usr/share/<%= @service_name %>/bin/<%= @service_name %> -Dconfig.file=<%= @applicationconfig %> -Dpidfile.path=/dev/null -Dlogger.file=<%= @loggerconfig %>
 Restart=on-failure
-User=liquify
-
-# See http://serverfault.com/a/695863
+RestartSec=5
+User=<%= @user %>
 SuccessExitStatus=143
+LimitNOFILE=65536
+MemoryHigh=5632M
+MemoryMax=6G
+NoNewPrivileges=true
+ProtectSystem=full
+PrivateTmp=true
 
 [Install]
 WantedBy=multi-user.target

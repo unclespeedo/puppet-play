@@ -3,7 +3,7 @@
 # Base parameters
 
 class play::params {
-  $config_params     = lookup('play::config_params', Hash, 'hash', {'http.port' => '9000'})
+  $config_params     = lookup('play::config_params', Hash, 'hash', { 'http.port' => '9000' })
   $package_manage    = lookup('play::package_manage', Boolean, 'first', false)
   $repo_manage       = lookup('play::repo_manage', Boolean, 'first', false)
   $repo_trusted      = lookup('play::repo_trusted', Boolean, 'first', false)
@@ -17,4 +17,5 @@ class play::params {
   $user              = lookup('play::user', String, 'first', 'play')
   $group             = lookup('play::group', String, 'first', 'play')
   $defaults          = lookup('play::defaults', String, 'first', '')
+  $jvm_opts          = lookup('play::jvm_opts', Optional[String], 'first', undef)
 }

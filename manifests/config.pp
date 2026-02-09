@@ -55,7 +55,17 @@ class play::config (
     group   => $play::group,
     mode    => '0640',
   }
+  file { "/home/${play::user}/heapdumps":
+    ensure => directory,
+    owner  => $play::user,
+    group  => $play::group,
+    mode   => '0700',
+  }
   if $play::service_manage {
+    exec { 'systemd-daemon-reload':
+      command     => '/usr/bin/systemctl daemon-reload',
+      refreshonly => true,
+    }
     case $facts['os']['release']['major'] {
       '14.04': {
         file { 'servicefile':
@@ -76,8 +86,9 @@ class play::config (
           owner   => 'root',
           group   => 'root',
           mode    => '0644',
-          notify  => Service[$play::service_name],
+          notify  => Exec['systemd-daemon-reload'],
         }
+        Exec['systemd-daemon-reload'] ~> Service[$play::service_name]
       }
     }
   }

@@ -63,6 +63,7 @@ class play (
   String                    $defaults           = $play::params::defaults,
   Stdlib::Absolutepath      $applicationconfig  = "${play::configdir}/application.conf",
   Stdlib::Absolutepath      $loggerconfig       = "${play::configdir}/logger.xml",
+  Optional[String]          $jvm_opts           = $play::params::jvm_opts,
 ) inherits play::params {
   include play::config
   include play::install
