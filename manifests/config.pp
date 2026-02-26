@@ -55,7 +55,7 @@ class play::config (
     group   => $play::group,
     mode    => '0640',
   }
-  file { "/home/${play::user}/heapdumps":
+  file { "${play::home}/heapdumps":
     ensure => directory,
     owner  => $play::user,
     group  => $play::group,
