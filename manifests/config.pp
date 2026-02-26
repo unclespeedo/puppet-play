@@ -16,7 +16,7 @@ class play::config (
     path   => $play::configdir,
     owner  => $play::user,
     group  => $play::group,
-    mode   => '0640',
+    mode   => '0750',
   }
   file { 'logs':
     ensure => directory,
@@ -55,7 +55,7 @@ class play::config (
     group   => $play::group,
     mode    => '0640',
   }
-  file { "/home/${play::user}/heapdumps":
+  file { "${play::home}/heapdumps":
     ensure => directory,
     owner  => $play::user,
     group  => $play::group,
