@@ -32,7 +32,7 @@ describe 'play' do
         it { is_expected.to contain_file('configurations').with_path('/home/play/conf') }
         it { is_expected.to contain_file('configurations').with_owner('play') }
         it { is_expected.to contain_file('configurations').with_group('play') }
-        it { is_expected.to contain_file('configurations').with_mode('0640') }
+        it { is_expected.to contain_file('configurations').with_mode('0750') }
 
         it { is_expected.to contain_file('logs').with_ensure('directory') }
         it { is_expected.to contain_file('logs').with_path('/var/log/play') }

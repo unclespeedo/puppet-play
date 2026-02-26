@@ -16,7 +16,7 @@ class play::config (
     path   => $play::configdir,
     owner  => $play::user,
     group  => $play::group,
-    mode   => '0640',
+    mode   => '0750',
   }
   file { 'logs':
     ensure => directory,
