@@ -104,6 +104,11 @@ describe 'play class' do
       it { is_expected.to be_directory }
     end
 
+    describe file('/opt/myapp/heapdumps') do
+      it { is_expected.to be_directory }
+      it { is_expected.to be_mode('700') }
+    end
+
     describe file('/opt/myapp/conf/application.conf') do
       it { is_expected.to be_file }
       its(:content) { is_expected.to match(%r{http\.port=8080}) }
