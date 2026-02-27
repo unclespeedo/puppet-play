@@ -3,7 +3,13 @@
 source 'https://rubygems.org'
 
 # Puppet and Facter — version controllable via environment
-gem 'puppet', ENV.fetch('PUPPET_GEM_VERSION', '>= 7.0'), require: false
+# PUPPET_GEM_VERSION overrides for CI; default aligns with metadata.json
+puppet_gem_version = ENV.fetch('PUPPET_GEM_VERSION', nil)
+if puppet_gem_version
+  gem 'puppet', puppet_gem_version, require: false
+else
+  gem 'puppet', '>= 7.0.0', '< 9.0.0', require: false
+end
 gem 'facter', require: false
 
 # Test and CI dependencies (outside :development so gha-puppet CI can use them)
