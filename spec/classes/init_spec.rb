@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'play' do
   on_supported_os.each do |os, os_facts|
     # Skip Windows — module uses Linux-only paths and service types
-    next if os =~ %r{windows}i
+    next if os.match?(%r{windows}i)
 
     context "on #{os}" do
       let(:facts) { os_facts }

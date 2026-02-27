@@ -41,6 +41,8 @@
 #   The path to the Play application configuration file
 # @param loggerconfig
 #   The path to the Play logger configuration file
+# @param jvm_opts
+#   Optional JVM options passed to the Play application
 #
 class play (
   String                    $user  = $play::params::user,
