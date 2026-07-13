@@ -22,7 +22,7 @@ class play::install inherits play {
             enable    => $play::service_enable,
             hasstatus => false,
             require   => Package[$play::package_name],
-            subscribe => File['application.conf'],
+            subscribe => [File['application.conf'], Package[$play::package_name]],
           }
         }
         default: {
@@ -30,7 +30,7 @@ class play::install inherits play {
             enable    => $play::service_enable,
             hasstatus => false,
             require   => Package[$play::package_name],
-            subscribe => File['application.conf'],
+            subscribe => [File['application.conf'], Package[$play::package_name]],
           }
         }
       }
